@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Teller</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        #castButton {
+            background-color: #3498db;
+            color: #fff;
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #results {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coin Divination</h1>
+    <button id="castButton">Cast Coins</button>
+    <div id="results"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#castButton').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/cast_coins',
+                    success: function(data) {
+                        displayResults(data);
+                    }
+                });
+            });
+        });
+
+        function displayResults(data) {
+            $('#results').empty();
+            for (var i = 0; i < data.results.length; i++) {
+                var resultName = data.names[i];
+                var resultHtml = '<p><strong>Result ' + (i + 1) + ':</strong></p>' +
+                                 '<p>Coin Results: ' + data.results[i].join(', ') + '</p>' +
+                                 '<p>Result Name: ' + resultName + '</p>';
+                $('#results').append(resultHtml);
+            }
+            //显示analyst内容
+            var analystHtml = 
+            '<p><strong>Analyst:</strong> ' +
+                date.analyst_output + '</p>';
+                  $('#results').append(analystHtml);
+        }
+    </script>
+</body>
+</html>
